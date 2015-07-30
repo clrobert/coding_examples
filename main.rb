@@ -109,4 +109,12 @@ class Player
   end
 end
 
+class Duck < Player
+
+end
+
+class Goose < Player
+
+end
+
 Game.new
