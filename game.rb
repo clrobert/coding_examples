@@ -46,10 +46,6 @@ end
 class PlayerCircle
   attr_accessor :players, :full_list
 
-  def size
-    @players.size
-  end
-
   def reset
     @players = @full_list
   end
@@ -92,15 +88,21 @@ class Player
   def self.quack
     #puts self.class.to_s
   end
+
+  def can_chase
+    false
+  end
 end
 
 class Picker < Player
-  attr_accessor :chosen_goose, :speed
+  attr_accessor :chosen_goose, :my_circle
 
-  def save_circle
+  def save_circle circle
+    @my_circle = circle
   end
 
   def choose_goose
+    @chosen_goose = @my_circle.select_random_player
   end
 
   def dub player, chosen_goose, count, minimum_walk    
@@ -113,32 +115,34 @@ class Picker < Player
     statement = player.name + " says " + label + " to " + player.name
   end
 
-  def generate_minimum_walk circle
-    generator = Random.new
-    #range = circle.size / 2 .. circle.size * 2
-    range = 10 # @fixme
-    random_walk = generator.rand(range) 
+  # One out of four times, pretend the goose isn't the goose.
+  def is_this_the_goose?
+    can_chase && [true, true, true, false].sample
   end
 
   def walk_circle circle
-    chosen_goose = circle.select_random_player
-    minimum_walk = generate_minimum_walk circle
 
-    minimum_walk.times do |count|
-      if !circle.empty
-        dub circle.pop, chosen_goose, count, minimum_walk
-      else
-        circle.reset
-      end
+    choose_goose
+    found_goose = nil
+
+    while found_goose.nil?
+      player = @my_circle.pop
+      found_goose = is_this_the_goose?
+      @my_circle.reset if @my_circle.empty?
     end
-    goose
+
+    found_goose
   end
+
 end
 
 class Duck < Player
 end
 
 class Goose < Player
+  def can_chase
+    true
+  end
   def chase picker
     @speed > picker.speed
   end
