@@ -10,6 +10,7 @@ class Game
     @new_picker = @player_circle.select_random_player
     @player_circle.remove @new_picker
     @picker = Picker.new @new_picker.name
+
     Announce.new_picker @picker
   end
 
@@ -76,7 +77,7 @@ class PlayerCircle
   end
 
   def empty
-    @players.size == 0
+    @players.empty?
   end
 
   def get_names players
@@ -117,7 +118,7 @@ class Player
 end
 
 class Picker < Player
-  attr_accessor :chosen_goose, :my_circle
+  attr_accessor :chosen_goose, :my_circle, :roster
 
   def save_circle circle    
     @my_circle = []
@@ -131,7 +132,12 @@ class Picker < Player
         @my_circle.push Goose.new player.name
       end
     end
+    @roster = @my_circle
   end
+
+  def reset
+    @my_circle = Array.new @roster
+  end  
 
   def is_this_the_goose? duck
     puts duck.name + " is a " + duck.quack  
@@ -143,7 +149,7 @@ class Picker < Player
     goose = nil
 
     while !found_goose
-      @my_circle.reset if @my_circle.empty?
+      reset if @my_circle.empty?
       player = @my_circle.pop
       found_goose = is_this_the_goose? player
       goose = player if found_goose
@@ -155,7 +161,6 @@ class Picker < Player
 end
 
 class Duck < Player
-
   def self.quack
     self.class.to_s
   end
