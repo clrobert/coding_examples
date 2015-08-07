@@ -12,27 +12,31 @@ module Prioritizer
     end
   end
 
+  def get_value name
+    @scheme[name]
+  end
+
   def compare object1, object2
-    @scheme[object1.priority] <=> @scheme[object2.priority]
+    get_value(object1.priority) <=> get_value(object2.priority)
   end 
 
+  def swap name1, name2
+    swap = get_value(@scheme[name1])
+    @scheme[name1] = get_value(name2)
+    @scheme[name2] = swap
+  end
+
   def prioritize list
-
     list.each_with_index do |item, index|
-
       # yes, it's a one-pass bubble sort.
       if compare(item, list[index + 1]) < 0
         swap list, item, list[index + 1]
       end
-
     end
-
     list
   end
 end
 
-
-#
 class Plane
   include Prioritizer
   attr_accessor :passengers
@@ -58,7 +62,6 @@ class Passenger
     # hook
     set_priority args[:priority]
   end
-
 end
 
 class CPUScheduler
