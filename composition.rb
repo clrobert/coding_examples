@@ -48,7 +48,10 @@ class RobotArmaments
 			"crippled" => [1,1,1,7],
 			"zombie" => [1,9,0,0],
 			"ghost" => [9,1,0,0],
-			"poke" => [4,4,1,1]
+			"poke" => [4,4,1,1],
+			"hook" => [5,3,1,1],
+			"repair" => [5,-5,5,5],
+			"blocking" => [0,0,5,5]
 		}
 	end
 end
