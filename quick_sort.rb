@@ -10,18 +10,16 @@ class QuickSort
 
     if in_list.length > 2
       left_list = in_list.take(pivot)
+      left_list = pivot_push(left_list.length - 1, in_list.take(pivot))
       recursive_pivot left_list.length - 1, left_list, out_list
 
       right_list = in_list.drop(pivot)
+      right_list = pivot_push(right_list.length - 1, in_list.drop(pivot))
       recursive_pivot right_list.length - 1, right_list, out_list
-
-      puts left_list
-      puts right_list
-      raise 5.inspect
     elsif in_list.length > 1
-      out_list.push( pivot_push(1, in_list) )
+      out_list.push(pivot_push(1, in_list))
     else
-      out_list.push(in_list)
+      out_list.push in_list
     end
     out_list
   end
@@ -38,9 +36,9 @@ class QuickSort
   end
 end
 
-q = [1,3,2].to_a.reverse
+q = (1..100).to_a.shuffle.reverse
 #QuickSort.pivot_push 1, [0,1]
-
+#puts "==="
 puts QuickSort.sort(q)
 
 
