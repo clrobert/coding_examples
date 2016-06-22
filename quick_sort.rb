@@ -14,6 +14,10 @@ class QuickSort
 
       right_list = in_list.drop(pivot)
       recursive_pivot right_list.length - 1, right_list, out_list
+
+      puts left_list
+      puts right_list
+      raise 5.inspect
     elsif in_list.length > 1
       out_list.push( pivot_push(1, in_list) )
     else
