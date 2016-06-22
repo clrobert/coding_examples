@@ -16,7 +16,7 @@ class SortingBenchmarking < Minitest::Test
   end
 
   def generate_list n
-    (1..n).to_a.reverse
+    (1..n).to_a.shuffle.reverse
   end
 
   def format_n n
