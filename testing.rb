@@ -32,7 +32,7 @@ end
 class Player
   attr_reader :name, :speed
 
-  def initialize name:, speed: nil
+  def initialize name: nil, speed: nil
     @name = name
     @speed = speed || (1..10).to_a.sample
   end
