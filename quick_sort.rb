@@ -1,56 +1,50 @@
 class QuickSort
-# quicksort(A, 1, length(A))
-#  algorithm quicksort(A, lo, hi) is
-#    if lo < hi then
-#        p := partition(A, lo, hi)
-#        quicksort(A, lo, p – 1)
-#        quicksort(A, p + 1, hi)
-#algorithm partition(A, lo, hi) is
-#    pivot := A[hi]
-#    i := lo - 1        // place for swapping
-#    for j := lo to hi – 1 do
-#        if A[j] ≤ pivot then
-#            i := i + 1
-#            swap A[i] with A[j]
-#    swap A[i + 1] with A[hi]
-#    return i + 1
-
-
-  def self.sort input
-    output = recursive_pivot(input.length - 1, input, [])
-
-    output
-  end
-
-  def self.recursive_pivot pivot, in_list, out_list
-    in_list = pivot_push pivot, in_list
-
-    left_list = in_list.take(pivot)
-    left_list = pivot_push(left_list.length - 1, in_list.take(pivot))
-    recursive_pivot left_list.length - 1, left_list, out_list
-
-    right_list = in_list.drop(pivot + 1)
-    right_list = pivot_push(right_list.length - 1, in_list.drop(pivot))
-    recursive_pivot right_list.length - 1, right_list, out_list
-
-    out_list
-  end
-
-  def self.pivot_push pivot, list
-    pivot_value = list[pivot]
-    for i in (pivot).downto(0) do
-      if list[i] > pivot_value
-        list.push list[i]
-        list.delete_at i
+  def self.sort array
+    if array.length <= 1
+      return array
+    end
+    less = Array.new
+    greater = Array.new
+    pivot = array[array.length/2]
+    array.each do |x|
+      if x < pivot
+        less << x
+      elsif x > pivot
+        greater << x
       end
     end
-    list
+    return (sort(less) << pivot << sort(greater)).flatten.compact
+  end
+
+  def self.sort_inplace a, b, list
+    new_pivot = partition a, b, list
+
+    new_left_pivot = partition(1, new_pivot - 1, list)
+    new_right_pivot = partition(new_pivot + 1, b, list)
+
+    if list.take(new_left_pivot).length > 2
+      sort(new_left_pivot, b, list)
+    end
+
+    if list.drop(new_right_pivot).length > 2
+      sort(a, new_right_pivot, list)
+    end # else partition directly the 2length list
+    list.to_s
+  end
+
+  # a is the start index of the partition,
+  # b is the end index of the partition
+  def self.partition a, b, list
+    pivot_value = list[b]
+    current_pivot_index = b
+    for i in (b).downto(a) do
+      if list[i] > pivot_value
+        value = list[i]
+        list.insert(b + 1, value)
+        list.delete_at i
+        current_pivot_index = current_pivot_index - 1
+      end
+    end
+    current_pivot_index
   end
 end
-
-A = [3,4,7,2,1,9,8,10].to_a.shuffle.reverse
-#QuickSort.pivot_push 1, [0,1]
-#puts "==="
-puts QuickSort.sort(q)
-
-
