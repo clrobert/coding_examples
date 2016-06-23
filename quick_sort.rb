@@ -1,4 +1,7 @@
 class QuickSort
+
+  # this is a crappy implementation
+  # that does not beat merge sort.
   def self.sort array
     if array.length <= 1
       return array
