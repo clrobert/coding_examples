@@ -2,7 +2,7 @@ class QuickSort
 
   # this is a crappy implementation
   # that does not beat merge sort.
-  def self.sort array
+  def self.duplicate_sort array
     if array.length <= 1
       return array
     end
@@ -19,35 +19,38 @@ class QuickSort
     return (sort(less) << pivot << sort(greater)).flatten.compact
   end
 
-  def self.sort_inplace a, b, list
-    new_pivot = partition a, b, list
+  def self.sort a, b, list
+    pivot_index = b
+    pivot_value = list[pivot_index]
 
-    new_left_pivot = partition(1, new_pivot - 1, list)
-    new_right_pivot = partition(new_pivot + 1, b, list)
-
-    if list.take(new_left_pivot).length > 2
-      sort(new_left_pivot, b, list)
+    if list.length <= 1 || a >= b
+      return
     end
 
-    if list.drop(new_right_pivot).length > 2
-      sort(a, new_right_pivot, list)
-    end # else partition directly the 2length list
-    list.to_s
-  end
-
-  # a is the start index of the partition,
-  # b is the end index of the partition
-  def self.partition a, b, list
-    pivot_value = list[b]
-    current_pivot_index = b
     for i in (b).downto(a) do
       if list[i] > pivot_value
         value = list[i]
-        list.insert(b + 1, value)
+        list.insert(pivot_index + 1, value)
         list.delete_at i
-        current_pivot_index = current_pivot_index - 1
+        pivot_index = pivot_index - 1
       end
     end
-    current_pivot_index
+
+    if list.take(pivot_index).length > 2
+      sort(a, pivot_index - 1, list)
+    end
+
+    if list.drop(pivot_index + 1).length > 2
+      sort(pivot_index + 1, b, list)
+    end
+
+    # else partition directly the 2length list
+    list.to_s
   end
 end
+
+q = (1..10).to_a.shuffle
+puts QuickSort.sort 0, q.length - 1, q
+
+
+
