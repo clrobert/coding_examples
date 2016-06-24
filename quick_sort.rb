@@ -19,11 +19,18 @@ class QuickSort
     return (sort(less) << pivot << sort(greater)).flatten.compact
   end
 
+  def self.quick_sort list
+    return list if list.uniq.size < 2
+    p = list.sample
+    left, right = list.partition{|elmt| elmt <= p}
+    quick_sort(left) + quick_sort(right)
+  end
+
   def self.sort a, b, list
     pivot_index = b
     pivot_value = list[pivot_index]
 
-    if list.length <= 1 || a >= b
+    if a >= b
       return
     end
 
@@ -36,21 +43,14 @@ class QuickSort
       end
     end
 
-    if list.take(pivot_index).length > 2
+    if list.take(pivot_index).length > 1
       sort(a, pivot_index - 1, list)
     end
 
-    if list.drop(pivot_index + 1).length > 2
+    if list.drop(pivot_index + 1).length > 1
       sort(pivot_index + 1, b, list)
     end
 
-    # else partition directly the 2length list
-    list.to_s
+    list
   end
 end
-
-q = (1..100).to_a.shuffle
-puts QuickSort.sort 0, q.length - 1, q
-
-
-
