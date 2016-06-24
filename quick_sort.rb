@@ -49,7 +49,7 @@ class QuickSort
   end
 end
 
-q = (1..10).to_a.shuffle
+q = (1..100).to_a.shuffle
 puts QuickSort.sort 0, q.length - 1, q
 
 
