@@ -26,31 +26,31 @@ class QuickSort
     quick_sort(left) + quick_sort(right)
   end
 
-  def self.sort a, b, list
-    pivot_index = b
-    pivot_value = list[pivot_index]
-
-    if a >= b
-      return
-    end
-
-    for i in (b).downto(a) do
-      if list[i] > pivot_value
-        value = list[i]
-        list.insert(pivot_index + 1, value)
-        list.delete_at i
-        pivot_index = pivot_index - 1
-      end
-    end
-
-    if list.take(pivot_index).length > 1
-      sort(a, pivot_index - 1, list)
-    end
-
-    if list.drop(pivot_index + 1).length > 1
-      sort(pivot_index + 1, b, list)
-    end
-
-    list
-  end
+  #def self.sort a, b, list
+  #  pivot_index = b
+  #  pivot_value = list[pivot_index]
+#
+  #  if a >= b
+  #    return
+  #  end
+#
+  #  for i in (b).downto(a) do
+  #    if list[i] > pivot_value
+  #      value = list[i]
+  #      list.insert(pivot_index + 1, value)
+  #      list.delete_at i
+  #      pivot_index = pivot_index - 1
+  #    end
+  #  end
+#
+  #  if list.take(pivot_index).length > 1
+  #    sort(a, pivot_index - 1, list)
+  #  end
+#
+  #  if list.drop(pivot_index + 1).length > 1
+  #    sort(pivot_index + 1, b, list)
+  #  end
+#
+  #  list
+  #end
 end
