@@ -1,2 +1,1 @@
-# Design Examples
-Various examples of software design concepts.
+Various examples of software concepts.
